@@ -7,7 +7,7 @@ const server = express();
 
 server.use(express.json());
 
-server.get("/", (req, res) => {
+server.get("/api/accounts", (req, res) => {
   // get a list of posts from the database
   // SELECT * FROM posts
   db.select("*")
@@ -20,7 +20,7 @@ server.get("/", (req, res) => {
     });
 });
 
-server.get("/:id", (req, res) => {
+server.get("/api/accounts/:id", (req, res) => {
   const { id } = req.params;
   db.select("*")
     .from("accounts")
@@ -34,7 +34,7 @@ server.get("/:id", (req, res) => {
     });
 });
 
-server.post("/", (req, res) => {
+server.post("/api/accounts/", (req, res) => {
   const postAccount = req.body;
   db("accounts")
     .insert(postAccount, "id")
@@ -51,7 +51,7 @@ server.post("/", (req, res) => {
     });
 });
 
-server.put("/:id", (req, res) => {
+server.put("/api/accounts/:id", (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
@@ -71,7 +71,7 @@ server.put("/:id", (req, res) => {
     });
 });
 
-server.delete("/:id", (req, res) => {
+server.delete("/api/accounts/:id", (req, res) => {
   const { id } = req.params;
 
   db("accounts")
@@ -96,3 +96,20 @@ function handleError(error, res) {
 }
 
 module.exports = server;
+
+// stretch part 1
+
+//1, Find a query to discover how many different cities are stored in the Customers
+//table.Repeats should not be double counted.Should be 69.
+
+//solution :
+/*SELECT COUNT(DISTINCT city)
+From customers
+*/
+
+//2 Find all suppliers who have names longer than 20 characters. Returns 11 records.
+//solution :
+// SELECT *
+// From suppliers
+// WHERE LENGTH(SupplierName)>20
+// LIMIT 11
